@@ -10,6 +10,18 @@ import kotlinx.coroutines.Job
 
 internal abstract class BaseFragment<VM:BaseViewModel, VB:ViewBinding> : Fragment() {
 
+    /*
+    BaseViewModel, BaseBinding을 사용하는 이유
+
+    1)
+    Child Fragment 로부터 어떤 Child ViewModel, Child ViewBinding 타입을 지정 받더라도
+    공통적으로 사용할 수 있도록
+
+    2)
+    BaseViewModel 에 있는 데이터나 기능들을 BaseFragment 에서 처리가능
+    */
+
+
     abstract val viewModel : VM
 
     protected lateinit var binding : VB

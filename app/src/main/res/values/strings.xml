@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">commerce</string>
+    <string name="products">쇼핑</string>
+    <string name="my">My</string>
 </resources>
