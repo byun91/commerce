@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.Job
+import org.koin.android.ext.android.bind
 
 internal abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding>: AppCompatActivity(){
 
@@ -18,6 +19,8 @@ internal abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding>: AppCom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = getViewBinding()
+        setContentView(binding.root)
     }
 
     abstract fun observeData()
