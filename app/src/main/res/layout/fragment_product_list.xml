@@ -32,6 +32,7 @@
 
 
     <TextView
+        android:id="@+id/emptyResultTextView"
         android:text="@string/empty_products_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

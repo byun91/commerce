@@ -1,5 +1,6 @@
 package com.example.commerce.presentation.list
 
+import androidx.core.view.isGone
 import com.example.commerce.databinding.FragmentProductListBinding
 import com.example.commerce.presentation.BaseFragment
 import com.example.commerce.presentation.adapter.ProductListAdapter
@@ -29,9 +30,25 @@ internal class ProductListFragment :
 
             }
             is ProductListState.Success -> {
+                handleSuccessState(it)
             }
             is ProductListState.Error -> {
 
+            }
+        }
+    }
+
+    private fun handleSuccessState(state: ProductListState.Success) = with(binding) {
+        refreshLayout.isEnabled = state.productList.isNotEmpty()
+        refreshLayout.isRefreshing = false
+
+        if (state.productList.isEmpty()) {
+            emptyResultTextView.isGone = false
+            recyclerView.isGone = true
+        } else {
+            emptyResultTextView.isGone = true
+            recyclerView.isGone = false
+            adapter.setProductList(state.productList) {
             }
         }
     }
