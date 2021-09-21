@@ -6,11 +6,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 class DefaultProductRepository(
-    private val productApiService: ProductApiService,
+    private val productApi: ProductApiService,
     private val ioDispatcher : CoroutineDispatcher
 ) : ProductRepository {
     override suspend fun getProductList(): List<ProductEntity> = withContext(ioDispatcher){
-        TODO("Not yet implemented")
+        val response = productApi.getProducts()
+        return@withContext if (response.isSuccessful) {
+            response.body()?.items?.map { it.toEntity()}?: listOf()
+        } else {
+            listOf()
+        }
     }
 
     override suspend fun getProduct(): ProductEntity = withContext(ioDispatcher){
