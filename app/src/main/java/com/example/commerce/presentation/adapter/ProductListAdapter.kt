@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.commerce.data.entity.product.ProductEntity
 import com.example.commerce.databinding.ViewholderProductItemBinding
+import com.example.commerce.extensions.loadCenterCrop
 
 class ProductListAdapter
     : RecyclerView.Adapter<ProductListAdapter.ProductItemViewHolder>() {
@@ -16,6 +17,9 @@ class ProductListAdapter
         val productItemClickListener : (ProductEntity) -> Unit
     ) : RecyclerView.ViewHolder(binding.root){
         fun bindData(data : ProductEntity) = with(binding){
+            productNameTextView.text = data.productName
+            productPriceTextView.text = "${data.productPrice}원"
+            productImageView.loadCenterCrop(data.productImage, 8f)
 
         }
         fun bindViews(data : ProductEntity) {
