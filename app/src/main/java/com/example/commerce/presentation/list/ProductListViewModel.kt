@@ -18,7 +18,7 @@ internal class ProductListViewModel(
     = _productListStateLiveData
 
     override fun fetchData(): Job = viewModelScope.launch {
-        setState(ProductListState.Loading)
+        setState(ProductListState.Loading) // isRefreshing = true
         setState(
             ProductListState.Success(getProductListUseCase())
         )

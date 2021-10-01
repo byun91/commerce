@@ -1,5 +1,6 @@
 package com.example.commerce.presentation.list
 
+import android.widget.Toast
 import androidx.core.view.isGone
 import com.example.commerce.databinding.FragmentProductListBinding
 import com.example.commerce.presentation.BaseFragment
@@ -27,19 +28,18 @@ internal class ProductListFragment :
                 initViews(binding)
             }
             is ProductListState.Loading -> {
-
+                handleLoadingState()
             }
             is ProductListState.Success -> {
                 handleSuccessState(it)
             }
             is ProductListState.Error -> {
-
+                handleErrorState()
             }
         }
     }
 
     private fun handleSuccessState(state: ProductListState.Success) = with(binding) {
-        refreshLayout.isEnabled = state.productList.isNotEmpty()
         refreshLayout.isRefreshing = false
 
         if (state.productList.isEmpty()) {
@@ -51,6 +51,15 @@ internal class ProductListFragment :
             adapter.setProductList(state.productList) {
             }
         }
+    }
+
+    private fun handleLoadingState() = with(binding) {
+        refreshLayout.isRefreshing = true
+    }
+
+
+    private fun handleErrorState() {
+        Toast.makeText(requireContext(), "에러가 발생했습니다.", Toast.LENGTH_SHORT).show()
     }
 
     private fun initViews(binding: FragmentProductListBinding)

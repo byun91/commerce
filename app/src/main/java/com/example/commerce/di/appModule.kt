@@ -20,11 +20,11 @@ val appModule = module {
 
      // ViewModel
      viewModel{MainViewModel()}
-     viewModel{ProductListViewModel(get())}
+     viewModel{ProductListViewModel(getProductListUseCase = get())}
      viewModel{ProfileViewModel()}
 
      // UseCase
-     factory { GetProductListUseCase(get()) }
+     factory { GetProductListUseCase(productRepository = get()) }
 
      // Coroutines Dispatcher
      single { Dispatchers.Main }
