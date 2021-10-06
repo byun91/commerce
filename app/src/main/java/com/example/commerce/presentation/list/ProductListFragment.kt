@@ -5,6 +5,7 @@ import androidx.core.view.isGone
 import com.example.commerce.databinding.FragmentProductListBinding
 import com.example.commerce.presentation.BaseFragment
 import com.example.commerce.presentation.adapter.ProductListAdapter
+import com.example.commerce.presentation.detail.ProductDetailActivity
 import org.koin.android.ext.android.inject
 
 internal class ProductListFragment :
@@ -49,6 +50,9 @@ internal class ProductListFragment :
             emptyResultTextView.isGone = true
             recyclerView.isGone = false
             adapter.setProductList(state.productList) {
+                startActivity(
+                    ProductDetailActivity.newIntent(requireContext(), it.id)
+                )
             }
         }
     }

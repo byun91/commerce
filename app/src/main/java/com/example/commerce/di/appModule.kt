@@ -8,6 +8,7 @@ import com.example.commerce.data.repository.DefaultProductRepository
 import com.example.commerce.data.repository.ProductRepository
 import com.example.commerce.domain.GetProductItemUseCase
 import com.example.commerce.domain.GetProductListUseCase
+import com.example.commerce.presentation.detail.ProductDetailViewModel
 import com.example.commerce.presentation.list.ProductListViewModel
 import com.example.commerce.presentation.main.MainViewModel
 import com.example.commerce.presentation.profile.ProfileViewModel
@@ -22,16 +23,15 @@ val appModule = module {
      viewModel{MainViewModel()}
      viewModel{ProductListViewModel(getProductListUseCase = get())}
      viewModel{ProfileViewModel()}
+     viewModel { (productId:Long) -> ProductDetailViewModel(productId, get()) }
 
      // UseCase
      factory { GetProductListUseCase(productRepository = get()) }
+     factory { GetProductItemUseCase(productRepository = get())  }
 
      // Coroutines Dispatcher
      single { Dispatchers.Main }
      single { Dispatchers.IO }
-
-     // UseCases
-     factory { GetProductItemUseCase(productRepository = get())  }
 
      //Repositories
      single<ProductRepository> {
