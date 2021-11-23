@@ -1,8 +1,8 @@
 package com.example.commerce.data.repository
 
-import com.example.commerce.data.entity.product.ProductEntity
+import com.example.commerce.data.response.Product
 
 interface ProductRepository {
-    suspend fun getProductList() : List<ProductEntity>
-    suspend fun getProduct() : ProductEntity
+    suspend fun getProductList(index : Int) : List<Product>
+    suspend fun getProduct() : Product
 }

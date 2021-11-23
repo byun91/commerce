@@ -17,7 +17,7 @@ internal fun provideProductRetrofit(
     okHttpClient: OkHttpClient,
     gsonConverterFactory: GsonConverterFactory
 ) : Retrofit = Retrofit.Builder()
-        .baseUrl(Url.PRODUCT)
+        .baseUrl(Url.DOMAIN)
         .addConverterFactory(gsonConverterFactory)
         .client(okHttpClient)
         .build()

@@ -1,28 +1,30 @@
 package com.example.commerce.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.commerce.data.entity.product.ProductEntity
+import com.example.commerce.data.response.Product
 import com.example.commerce.databinding.ViewholderProductItemBinding
 import com.example.commerce.extensions.loadCenterCrop
 
+@SuppressLint("NotifyDataSetChanged")
 class ProductListAdapter
     : RecyclerView.Adapter<ProductListAdapter.ProductItemViewHolder>() {
-    private var productList : List<ProductEntity> = listOf()
-    private lateinit var productItemClickListener : (ProductEntity) -> Unit
+    private var productList : List<Product> = listOf()
+    private lateinit var productItemClickListener : (Product) -> Unit
 
     inner class ProductItemViewHolder(
         private val binding : ViewholderProductItemBinding,
-        val productItemClickListener : (ProductEntity) -> Unit
+        val productItemClickListener : (Product) -> Unit
     ) : RecyclerView.ViewHolder(binding.root){
-        fun bindData(data : ProductEntity) = with(binding){
-            productNameTextView.text = data.productName
-            productPriceTextView.text = "${data.productPrice}원"
-            productImageView.loadCenterCrop(data.productImage, 8f)
+        fun bindData(data : Product) = with(binding){
+            productNameTextView.text = data.name
+            productPriceTextView.text = "${data.rate}원"
+            productImageView.loadCenterCrop(data.thumbnail, 8f)
 
         }
-        fun bindViews(data : ProductEntity) {
+        fun bindViews(data : Product) {
             binding.root.setOnClickListener{
                 productItemClickListener(data)
             }
@@ -42,9 +44,14 @@ class ProductListAdapter
 
     override fun getItemCount(): Int = productList.size
 
-    fun setProductList(productList: List<ProductEntity>, productItemClickListener: (ProductEntity) -> Unit = { }) {
-        this.productList = productList
+    fun setProductList(productList: List<Product>, productItemClickListener: (Product) -> Unit = { }) {
+        this.productList += productList
         this.productItemClickListener = productItemClickListener
+        notifyDataSetChanged()
+    }
+
+    fun emptyProductList() {
+        this.productList = emptyList()
         notifyDataSetChanged()
     }
 

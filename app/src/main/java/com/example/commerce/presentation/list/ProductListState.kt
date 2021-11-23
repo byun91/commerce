@@ -1,6 +1,6 @@
 package com.example.commerce.presentation.list
 
-import com.example.commerce.data.entity.product.ProductEntity
+import com.example.commerce.data.response.Product
 
 sealed class ProductListState {
     object UnInitialized : ProductListState()
@@ -8,7 +8,8 @@ sealed class ProductListState {
     object Loading : ProductListState()
 
     data class Success(
-        val productList : List<ProductEntity>
+        val productList : List<Product>,
+        val index : Int
     ) : ProductListState()
 
     object Error : ProductListState()

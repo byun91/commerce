@@ -22,7 +22,7 @@ internal class ProductDetailActivity : BaseActivity<ProductDetailViewModel, Acti
 
         const val PRODUCT_ORDERED_RESULT_CODE = 99
 
-        fun newIntent(context: Context, productId: Long) =
+        fun newIntent(context: Context, productId: Int) =
             Intent(context, ProductDetailActivity::class.java).apply {
                 putExtra(PRODUCT_ID_KEY, productId)
             }
@@ -55,10 +55,10 @@ internal class ProductDetailActivity : BaseActivity<ProductDetailViewModel, Acti
     private fun handleSuccess(state : ProductDetailState.Success) = with(binding) {
         progressBar.isGone = true
         val product = state.productEntity
-        productCategoryTextView.text = product.productType
-        productImageView.loadCenterCrop(product.productImage, 8f)
-        productPriceTextView.text = "${product.productPrice}원"
-        introductionImageView.load(state.productEntity.productImage)
+        productCategoryTextView.text = product.name
+        productImageView.loadCenterCrop(product.thumbnail, 8f)
+        productPriceTextView.text = "${product.rate}원"
+        introductionImageView.load(state.productEntity.thumbnail)
     }
 
     private fun initViews() = with(binding){

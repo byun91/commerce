@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.commerce.data.entity.product.ProductEntity
+import com.example.commerce.data.response.Product
 import com.example.commerce.domain.GetProductItemUseCase
 import com.example.commerce.presentation.BaseViewModel
 import kotlinx.coroutines.Job
@@ -18,7 +19,7 @@ internal class ProductDetailViewModel(
         MutableLiveData<ProductDetailState>(ProductDetailState.UnInitialized)
     val productDetailState : LiveData<ProductDetailState> = _productDetailState
 
-    private lateinit var productEntity: ProductEntity
+    private lateinit var productEntity: Product
 
     override fun fetchData(): Job = viewModelScope.launch {
         setState(ProductDetailState.Loading)
