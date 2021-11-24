@@ -6,6 +6,7 @@ import com.example.commerce.data.network.provideProductApiService
 import com.example.commerce.data.network.provideProductRetrofit
 import com.example.commerce.data.repository.DefaultProductRepository
 import com.example.commerce.data.repository.ProductRepository
+import com.example.commerce.data.response.Product
 import com.example.commerce.domain.GetProductItemUseCase
 import com.example.commerce.domain.GetProductListUseCase
 import com.example.commerce.presentation.detail.ProductDetailViewModel
@@ -23,7 +24,7 @@ val appModule = module {
      viewModel{MainViewModel()}
      viewModel{ProductListViewModel(getProductListUseCase = get())}
      viewModel{ProfileViewModel()}
-     viewModel { (productId:Long) -> ProductDetailViewModel(productId, get()) }
+     viewModel { (product : Product) -> ProductDetailViewModel(product) }
 
      // UseCase
      factory { GetProductListUseCase(productRepository = get()) }

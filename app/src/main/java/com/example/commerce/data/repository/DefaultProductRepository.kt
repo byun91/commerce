@@ -17,8 +17,4 @@ class DefaultProductRepository(
             listOf()
         }
     }
-
-    override suspend fun getProduct(): Product {
-        TODO("Not yet implemented")
-    }
 }

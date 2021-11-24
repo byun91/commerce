@@ -1,82 +1,49 @@
 package com.example.commerce.presentation.detail
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import com.example.commerce.data.response.Product
 import com.example.commerce.databinding.ActivityProductDetailBinding
 import com.example.commerce.extensions.load
-import com.example.commerce.extensions.loadCenterCrop
-import com.example.commerce.extensions.toast
 import com.example.commerce.presentation.BaseActivity
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
+@SuppressLint("SetTextI18n")
 internal class ProductDetailActivity : BaseActivity<ProductDetailViewModel, ActivityProductDetailBinding>() {
 
 
     companion object {
 
-        const val PRODUCT_ID_KEY = "PRODUCT_ID_KEY"
+        const val PRODUCT_KEY = "PRODUCT_KEY"
 
-        const val PRODUCT_ORDERED_RESULT_CODE = 99
-
-        fun newIntent(context: Context, productId: Int) =
+        fun newIntent(context: Context, product: Product) =
             Intent(context, ProductDetailActivity::class.java).apply {
-                putExtra(PRODUCT_ID_KEY, productId)
+                putExtra(PRODUCT_KEY, product)
             }
 
     }
 
     override val viewModel by inject<ProductDetailViewModel>{
-        parametersOf(
-            intent.getLongExtra(PRODUCT_ID_KEY,-1)
-        )
+        parametersOf(intent.extras?.getSerializable(PRODUCT_KEY) as Product)
     }
 
     override fun getViewBinding(): ActivityProductDetailBinding
     = ActivityProductDetailBinding.inflate(layoutInflater)
 
-    override fun observeData() = viewModel.productDetailState.observe(this) {
-        when (it) {
-            is ProductDetailState.UnInitialized -> initViews()
-            is ProductDetailState.Loading -> handleLoading()
-            is ProductDetailState.Success -> handleSuccess(it)
-            is ProductDetailState.Error -> handleError()
-            is ProductDetailState.Order -> handleOrder()
-        }
-    }
 
-    private fun handleLoading() = with(binding) {
-        progressBar.isVisible = true
-    }
 
-    private fun handleSuccess(state : ProductDetailState.Success) = with(binding) {
-        progressBar.isGone = true
-        val product = state.productEntity
-        productCategoryTextView.text = product.name
-        productImageView.loadCenterCrop(product.thumbnail, 8f)
-        productPriceTextView.text = "${product.rate}원"
-        introductionImageView.load(state.productEntity.thumbnail)
-    }
-
-    private fun initViews() = with(binding){
-        setSupportActionBar(toolbar)
+    private fun initViews(product : Product) = with(binding){
+        productImageView.load(product.description.imagePath)
+        productPriceTextView.text = "" + product.description.price
+        productCategoryTextView.text = product.description.subject
     }
 
 
-    private fun handleError() {
-        toast("제품 정보를 불러올 수 없습니다.")
-        finish()
+    override fun observeData() = viewModel.productDescriptionLiveData.observe(this){
+        initViews(it)
     }
-
-    private fun handleOrder() {
-        setResult(PRODUCT_ORDERED_RESULT_CODE)
-        toast("성공적으로 주문이 완료되었습니다.")
-        finish()
-    }
-
 
 }
 

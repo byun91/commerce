@@ -1,13 +1,10 @@
 package com.example.commerce.presentation.list
 
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.isGone
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.commerce.databinding.FragmentProductListBinding
-import com.example.commerce.extensions.toast
 import com.example.commerce.presentation.BaseFragment
 import com.example.commerce.presentation.adapter.ProductListAdapter
 import com.example.commerce.presentation.detail.ProductDetailActivity
@@ -53,7 +50,7 @@ internal class ProductListFragment :
             recyclerView.isGone = false
             adapter.setProductList(state.productList) {
                 startActivity(
-                    ProductDetailActivity.newIntent(requireContext(), it.id)
+                    ProductDetailActivity.newIntent(requireContext(), it)
                 )
             }
         }

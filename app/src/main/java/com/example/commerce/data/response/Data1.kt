@@ -1,6 +1,7 @@
 package com.example.commerce.data.response
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class ResponseData1(
     val code: Int,
@@ -19,12 +20,10 @@ data class Product(
     val name: String,
     val rate: Double,
     val thumbnail: String
-){
-
-}
+) : Serializable
 
 data class Description(
-    val imagePath: String,
+    @SerializedName("imagePath") val imagePath: String,
     val price: Int,
     val subject: String
-)
+) : Serializable

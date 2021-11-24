@@ -4,5 +4,4 @@ import com.example.commerce.data.response.Product
 
 interface ProductRepository {
     suspend fun getProductList(index : Int) : List<Product>
-    suspend fun getProduct() : Product
 }

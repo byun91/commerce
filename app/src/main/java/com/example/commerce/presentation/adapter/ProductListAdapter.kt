@@ -14,13 +14,16 @@ class ProductListAdapter
     private var productList : List<Product> = listOf()
     private lateinit var productItemClickListener : (Product) -> Unit
 
+    @SuppressLint("SetTextI18n")
     inner class ProductItemViewHolder(
         private val binding : ViewholderProductItemBinding,
         val productItemClickListener : (Product) -> Unit
     ) : RecyclerView.ViewHolder(binding.root){
+
         fun bindData(data : Product) = with(binding){
             productNameTextView.text = data.name
-            productPriceTextView.text = "${data.rate}원"
+            productPriceTextView.text = data.description.price.toString() + "원"
+            productGradeTextView.text = data.rate.toString()
             productImageView.loadCenterCrop(data.thumbnail, 8f)
 
         }
