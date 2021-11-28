@@ -21,8 +21,18 @@ class DefaultProductRepository(
         }
     }
 
-    override suspend fun getLocalProductList(): List<ProductEntity> = withContext(ioDispatcher) {
-        productDao.getAll()
+    override suspend fun getLocalProductList(orderBy : Int): List<ProductEntity> = withContext(ioDispatcher) {
+        when (orderBy) {
+            1 -> {
+                productDao.getOrderByAsc()
+            }
+            2 -> {
+                productDao.getOrderByDesc()
+            }
+            else -> {
+                productDao.getAll()
+            }
+        }
     }
 
     override suspend fun likeProductItem(productItem: ProductEntity): Boolean = withContext(ioDispatcher) {

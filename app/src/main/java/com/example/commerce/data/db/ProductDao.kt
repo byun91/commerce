@@ -26,4 +26,10 @@ interface ProductDao {
     @Update
     suspend fun update(product: ProductEntity)
 
+    @Query("SELECT * FROM ProductEntity ORDER BY rate ASC")
+    suspend fun getOrderByAsc(): List<ProductEntity>
+
+    @Query("SELECT * FROM ProductEntity ORDER BY rate DESC")
+    suspend fun getOrderByDesc(): List<ProductEntity>
+
 }

@@ -39,12 +39,8 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         supportFragmentManager.fragments.forEach { fm ->
             supportFragmentManager.beginTransaction().hide(fm).commit()
         }
-        findFragment?.let{
-            supportFragmentManager.beginTransaction().show(it).commit()
-        } ?: kotlin.run {
-            supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, fragment, tag)
-                .commitAllowingStateLoss()
-        }
+        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, fragment, tag)
+            .commitAllowingStateLoss()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

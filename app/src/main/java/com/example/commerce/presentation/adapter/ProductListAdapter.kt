@@ -38,8 +38,9 @@ class ProductListAdapter(val tag : String)
                 productLikeImageView.isSelected = !productLikeImageView.isSelected
                 productLikeClickListener(data)
                 if (tag == "MyLikeFragment" && !productLikeImageView.isSelected) {
+                    (productList as ArrayList).remove(data)
+                    (likeList as ArrayList).remove(data)
                     binding.root.visibility = View.GONE
-                    notifyDataSetChanged()
                 }
             }
         }
@@ -63,7 +64,13 @@ class ProductListAdapter(val tag : String)
         productItemClickListener: (Product, Int) -> Unit,
         productLikeClickListener: (Product) -> Unit = { }
     ) {
-        this.productList += productList
+
+        if (tag == "MyLikeFragment") {
+            this.productList = productList
+        } else {
+            this.productList += productList
+        }
+
         this.likeList = likeList
         this.productItemClickListener = productItemClickListener
         this.productLikeClickListener = productLikeClickListener

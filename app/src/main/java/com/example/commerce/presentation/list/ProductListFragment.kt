@@ -69,8 +69,7 @@ internal class ProductListFragment :
     private val startProductDetailForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == ProductDetailActivity.PRODUCT_LIKE_RESULT_CODE) {
-                adapter.emptyProductList()
-                viewModel.initData()
+                wipeData()
             }
         }
 
@@ -78,6 +77,11 @@ internal class ProductListFragment :
         refreshLayout.isRefreshing = true
     }
 
+
+    override fun wipeData() {
+        adapter.emptyProductList()
+        viewModel.initData()
+    }
 
     private fun handleErrorState() {
         Toast.makeText(requireContext(), "에러가 발생했습니다.", Toast.LENGTH_SHORT).show()
@@ -100,8 +104,7 @@ internal class ProductListFragment :
         })
         refreshLayout.setOnRefreshListener{
             lastPosition = 0
-            adapter.emptyProductList()
-            viewModel.initData()
+            wipeData()
         }
     }
 }

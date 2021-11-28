@@ -6,7 +6,7 @@ import com.example.commerce.data.response.Product
 interface ProductRepository {
     suspend fun getProductList(index : Int) : List<Product>
 
-    suspend fun getLocalProductList(): List<ProductEntity>
+    suspend fun getLocalProductList(orderBy : Int): List<ProductEntity>
 
     suspend fun likeProductItem(ProductItem: ProductEntity) : Boolean
 }

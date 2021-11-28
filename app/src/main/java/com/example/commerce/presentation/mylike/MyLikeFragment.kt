@@ -47,8 +47,6 @@ internal class MyLikeFragment
 
     }
 
-
-
     private var lastPosition = 0
 
     private fun handleSuccessState(state: ProductListState.Success) = with(binding) {
@@ -72,8 +70,7 @@ internal class MyLikeFragment
     private val startProductDetailForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == ProductDetailActivity.PRODUCT_LIKE_RESULT_CODE) {
-                adapter.emptyProductList()
-                viewModel.initData()
+                wipeData()
             }
         }
 
@@ -81,8 +78,23 @@ internal class MyLikeFragment
     private fun handleLoadingState() {
     }
 
+
+    override fun wipeData() {
+        adapter.emptyProductList()
+        viewModel.initData()
+    }
+
     private fun initViews(binding: FragmentMylikeBinding) = with(binding){
         recyclerView.adapter = adapter
+        reviewDesc.setOnClickListener {
+            wipeData()
+            viewModel.sortData(2)
+        }
+        reviewAsc.setOnClickListener {
+            wipeData()
+            viewModel.sortData(1)
+        }
     }
+
 
 }

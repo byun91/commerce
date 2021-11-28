@@ -32,4 +32,22 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <Button
+        android:id="@+id/review_asc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="오름차순"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:id="@+id/review_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내림차순"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,7 +46,7 @@ internal abstract class BaseFragment<VM:BaseViewModel, VB:ViewBinding> : Fragmen
     }
 
     abstract fun observeData()
-
+    abstract fun wipeData()
 
     override fun onDestroyView() {
         super.onDestroyView()

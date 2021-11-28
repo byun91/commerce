@@ -25,6 +25,11 @@ internal class MyLikeViewModel(
         _myLikeLiveData.postValue(ProductListState.Success(listOf(),getLocalProductListUsecase()))
     }
 
+    fun sortData(orderBy : Int): Job = viewModelScope.launch {
+        _myLikeLiveData.postValue(ProductListState.Loading)
+        _myLikeLiveData.postValue(ProductListState.Success(listOf(),getLocalProductListUsecase(orderBy)))
+    }
+
     fun likeProduct(product: Product) = viewModelScope.launch {
         likeProductItemUseCase(product)
     }
