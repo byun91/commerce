@@ -16,6 +16,7 @@ internal class ProductDetailActivity : BaseActivity<ProductDetailViewModel, Acti
 
     companion object {
 
+        const val PRODUCT_LIKE_RESULT_CODE = 99
         const val PRODUCT_KEY = "PRODUCT_KEY"
 
         fun newIntent(context: Context, product: Product) =
@@ -32,17 +33,27 @@ internal class ProductDetailActivity : BaseActivity<ProductDetailViewModel, Acti
     override fun getViewBinding(): ActivityProductDetailBinding
     = ActivityProductDetailBinding.inflate(layoutInflater)
 
-
-
     private fun initViews(product : Product) = with(binding){
         productImageView.load(product.description.imagePath)
-        productPriceTextView.text = "" + product.description.price
-        productCategoryTextView.text = product.description.subject
+        productPriceTextView.text = "" + product.description.price + "원"
+        productContentTextView.text = "<"+product.name + ">\n" +
+        "평점:" + product.rate + "\n" +product.description.subject
+        productLikeImageView.setOnClickListener {
+            productLikeImageView.isSelected = !productLikeImageView.isSelected
+            viewModel.likeProduct(product)
+            setResult(PRODUCT_LIKE_RESULT_CODE)
+        }
     }
 
-
-    override fun observeData() = viewModel.productDescriptionLiveData.observe(this){
-        initViews(it)
+    override fun observeData() {
+        viewModel.productDescriptionLiveData.observe(this) {
+            initViews(it)
+        }
+        viewModel.isLikeLiveData.observe(this){
+            it?.let {
+                binding.productLikeImageView.isSelected = it
+            }
+        }
     }
 
 }

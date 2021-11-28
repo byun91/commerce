@@ -1,6 +1,8 @@
 package com.example.commerce.presentation.list
 
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +24,7 @@ internal class ProductListFragment :
     override fun getViewBinding(): FragmentProductListBinding
     = FragmentProductListBinding.inflate(layoutInflater)
 
-    private val adapter = ProductListAdapter()
+    private val adapter = ProductListAdapter(TAG)
 
     override fun observeData()
     = viewModel.productListLiveData.observe(this){
@@ -44,17 +46,33 @@ internal class ProductListFragment :
 
     private fun handleSuccessState(state: ProductListState.Success) = with(binding) {
         refreshLayout.isRefreshing = false
-
         if (state.productList.isNotEmpty())  {
             emptyResultTextView.isGone = true
             recyclerView.isGone = false
-            adapter.setProductList(state.productList) {
-                startActivity(
-                    ProductDetailActivity.newIntent(requireContext(), it)
-                )
+            if (lastPosition > 0) {
+                binding.recyclerView.scrollToPosition(lastPosition)
+            }
+            adapter.setProductList(state.productList, state.likeList,
+                productItemClickListener = { it, pos ->
+                    lastPosition = pos
+                    startProductDetailForResult.launch(
+                        ProductDetailActivity.newIntent(requireContext(), it)
+                    ) }
+            ) {
+                viewModel.likeProduct(it)
             }
         }
     }
+
+    private var lastPosition = 0
+
+    private val startProductDetailForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == ProductDetailActivity.PRODUCT_LIKE_RESULT_CODE) {
+                adapter.emptyProductList()
+                viewModel.initData()
+            }
+        }
 
     private fun handleLoadingState() = with(binding) {
         refreshLayout.isRefreshing = true
@@ -71,18 +89,17 @@ internal class ProductListFragment :
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val lastPos = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                val bottomPos = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                 recyclerView.adapter?.itemCount?.let { totalCount ->
-                    if (lastPos == totalCount - 1) {
+                    if (bottomPos == totalCount - 1) {
                         viewModel.fetchData()
                     }
                 }
-
-
             }
 
         })
         refreshLayout.setOnRefreshListener{
+            lastPosition = 0
             adapter.emptyProductList()
             viewModel.initData()
         }

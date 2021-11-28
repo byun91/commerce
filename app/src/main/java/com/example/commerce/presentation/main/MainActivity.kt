@@ -3,11 +3,14 @@ package com.example.commerce.presentation.main
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.example.commerce.R
 import com.example.commerce.databinding.ActivityMainBinding
 import com.example.commerce.presentation.BaseActivity
+import com.example.commerce.presentation.BaseFragment
+import com.example.commerce.presentation.BaseViewModel
 import com.example.commerce.presentation.list.ProductListFragment
-import com.example.commerce.presentation.profile.ProfileFragment
+import com.example.commerce.presentation.mylike.MyLikeFragment
 import com.google.android.material.navigation.NavigationBarView
 import org.koin.android.ext.android.inject
 
@@ -48,11 +51,10 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         return when(item.itemId){
             R.id.menu_products ->{
                 showFragment(ProductListFragment(), ProductListFragment.TAG)
-
                 true
             }
             R.id.menu_profile ->{
-                showFragment(ProfileFragment(), ProfileFragment.TAG)
+                showFragment(MyLikeFragment(), MyLikeFragment.TAG)
                 true
             }
             else -> false

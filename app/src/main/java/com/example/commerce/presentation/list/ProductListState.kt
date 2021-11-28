@@ -8,8 +8,7 @@ sealed class ProductListState {
     object Loading : ProductListState()
 
     data class Success(
-        val productList : List<Product>,
-        val index : Int
+        val productList : List<Product>, val likeList : List<Product>
     ) : ProductListState()
 
     object Error : ProductListState()

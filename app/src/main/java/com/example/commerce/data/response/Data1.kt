@@ -1,5 +1,6 @@
 package com.example.commerce.data.response
 
+import com.example.commerce.data.db.ProductEntity
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -20,7 +21,18 @@ data class Product(
     val name: String,
     val rate: Double,
     val thumbnail: String
-) : Serializable
+) : Serializable {
+    fun toEntity() : ProductEntity =
+        ProductEntity(
+            id = id,
+            name = name,
+            rate = rate,
+            price = description.price,
+            subject = description.subject,
+            imagePath = description.imagePath,
+            thumbnail = thumbnail
+        )
+}
 
 data class Description(
     @SerializedName("imagePath") val imagePath: String,

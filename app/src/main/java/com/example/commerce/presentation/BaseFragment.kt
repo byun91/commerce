@@ -47,6 +47,7 @@ internal abstract class BaseFragment<VM:BaseViewModel, VB:ViewBinding> : Fragmen
 
     abstract fun observeData()
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         if (fetchJob.isActive) {
